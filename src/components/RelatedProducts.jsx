@@ -3,7 +3,7 @@ import {ShopContext} from "../context/ShopContext.jsx";
 import Title from "./Title.jsx";
 import ProductItem from "./ProductItem.jsx";
 
-const RelatedProducts = (category, subCategory) => {
+const RelatedProducts = ({category, subCategory}) => {
 
     const {products} = useContext(ShopContext)
     const [related, setRelated] = useState([])
