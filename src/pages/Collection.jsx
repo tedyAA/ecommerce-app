@@ -84,9 +84,10 @@ const Collection = () => {
         productsApi
             .index()
             .then((response) => {
-                setProductList(response.data); // set data to state
+                setProductList(response.data);
                 setLoading(false);
-                console.log(productList);
+                console.log(response.data, "list");
+                console.log(response.data);// log the new data
             })
             .catch((err) => {
                 setError(err);
@@ -96,7 +97,6 @@ const Collection = () => {
 
     return (
         <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
-
             <div className='min-w-60'>
                 <p onClick={() => setShowFilter(!showFilter)}
                    className='my-2 text-xl flex items-center cursor-pointer gap-2'>FILTERS
@@ -141,9 +141,8 @@ const Collection = () => {
                     </select>
                 </div>
                 <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'}>
-                    {filterProducts.map((product, index) => (
-                        <ProductItem key={index} image={product.image} name={product.name} id={product._id}
-                                     price={product.price}/>
+                    {productList.map((product, index) => (
+                        <ProductItem key={index} product={product}/>
                     ))}
                 </div>
             </div>
