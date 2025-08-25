@@ -10,20 +10,21 @@ const ProductItem = ({product}) => {
                 <img className='hover:scale-110 transition ease-in-out duration-200' src={product.image_urls[0]} alt=''/>
             </div>
             <p className='pt-3 pb-1 text-sm'>{product.name}</p>
+            <p className='pt-3 pb-1 text-sm'>{product.price /100} $</p>
         </Link>
     )
 }
 
 ProductItem.propTypes = {
     product: PropTypes.shape({
-        id: PropTypes.number.isRequired,
-        name: PropTypes.string.isRequired,
+        id: PropTypes.number,
+        name: PropTypes.string,
         price: PropTypes.number,
         category: PropTypes.shape({
             name: PropTypes.string
         }),
         image_urls: PropTypes.arrayOf(PropTypes.string)
-    }).isRequired
+    })
 };
 
 export default ProductItem;

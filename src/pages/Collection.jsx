@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
-import {ShopContext} from "../context/ShopContext.jsx";
+import React, {useEffect, useState} from 'react';
 import {assets} from "../assets/assets.js";
 import Title from "../components/Title.jsx";
 import ProductItem from "../components/ProductItem.jsx";
@@ -11,74 +10,7 @@ const Collection = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const {products, search, showSearch} = useContext(ShopContext)
     const [showFilter, setShowFilter] = useState(false);
-    const [filterProducts, setFilterProducts] = useState([]);
-
-    const [category, setCategory] = useState([]);
-    const [subCategory, setSubCategory] = useState([]);
-    const [sortType, setSortType] = useState('relevant');
-
-    const toggleCategory = (e) => {
-        if (category.includes(e.target.value)) {
-            setCategory(prev => prev.filter(item => item !== e.target.value))
-        } else {
-            setCategory(prev => [...prev, e.target.value])
-        }
-        console.log(category);
-    }
-
-    const toggleSubCategory = (e) => {
-        if (subCategory.includes(e.target.value)) {
-            setSubCategory(prev => prev.filter(item => item !== e.target.value))
-        } else {
-            setSubCategory(prev => [...prev, e.target.value])
-        }
-    }
-
-    const applyFilter = () => {
-
-        let productsCopy = products.slice()
-
-        if (showSearch && search) {
-            productsCopy = productsCopy.filter(item => item.name.toLowerCase().includes(search.toLowerCase()))
-        }
-
-        if (category.length > 0) {
-            productsCopy = productsCopy.filter(product => category.includes(product.category))
-        }
-
-        if (subCategory.length > 0) {
-            productsCopy = productsCopy.filter(product => subCategory.includes(product.subCategory))
-        }
-
-        setFilterProducts(productsCopy)
-    }
-
-    const sortProduct = () => {
-
-        let fpCopy = products.slice()
-
-        switch (sortType) {
-            case 'low-high':
-                setFilterProducts(fpCopy.sort((a, b) => (a.price - b.price)))
-                break;
-            case 'high-low':
-                setFilterProducts(fpCopy.sort((a, b) => (b.price - a.price)))
-                break;
-            default:
-                applyFilter()
-                break;
-        }
-    }
-
-    useEffect(() => {
-        applyFilter()
-    }, [category, subCategory, search, showSearch]);
-
-    useEffect(() => {
-        sortProduct()
-    }, [sortType]);
 
     useEffect(() => {
         productsApi
@@ -105,13 +37,13 @@ const Collection = () => {
                     <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
                     <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
                         <p className='flex gap-2'>
-                            <input type={"checkbox"} className='w-3' value={'Men'} onChange={toggleCategory}/>Men
+                            <input type={"checkbox"} className='w-3' value={'Men'}/>Men
                         </p>
                         <p className='flex gap-2'>
-                            <input type={"checkbox"} className='w-3' value={'Women'} onChange={toggleCategory}/>Women
+                            <input type={"checkbox"} className='w-3' value={'Women'}/>Women
                         </p>
                         <p className='flex gap-2'>
-                            <input type={"checkbox"} className='w-3' value={'Kids'} onChange={toggleCategory}/>Kids
+                            <input type={"checkbox"} className='w-3' value={'Kids'}/>Kids
                         </p>
                     </div>
                 </div>
@@ -119,13 +51,13 @@ const Collection = () => {
                     <p className='mb-3 text-sm font-medium'>TYPE</p>
                     <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
                         <p className='flex gap-2'>
-                            <input type={"checkbox"} className='w-3' value={'Topwear'} onChange={toggleSubCategory}/>Topwear
+                            <input type={"checkbox"} className='w-3' value={'Topwear'}/>Topwear
                         </p>
                         <p className='flex gap-2'>
-                            <input type={"checkbox"} className='w-3' value={'Bottomwear'} onChange={toggleSubCategory}/>Bottomwear
+                            <input type={"checkbox"} className='w-3' value={'Bottomwear'}/>Bottomwear
                         </p>
                         <p className='flex gap-2'>
-                            <input type={"checkbox"} className='w-3' value={'Winterwear'} onChange={toggleSubCategory}/>Winterwear
+                            <input type={"checkbox"} className='w-3' value={'Winterwear'}/>Winterwear
                         </p>
                     </div>
                 </div>
@@ -133,18 +65,21 @@ const Collection = () => {
             <div className='flex-1'>
                 <div className='flex justofy-between text-base sm:text-2xl mb-4'>
                     <Title text1={'ALL'} text2={'COLLECTIONS'}/>
-                    <select className='border-2 border-gray-300 text-sm px-2'
-                            onChange={(e) => setSortType(e.target.value)}>
+                    <select className='border-2 border-gray-300 text-sm px-2'>
                         <option value="relevant">Sort by: Relevant</option>
                         <option value="low-high">Sort by: Low to High</option>
                         <option value="high-low">Sort by: High to Low</option>
                     </select>
                 </div>
-                <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6'}>
-                    {productList.map((product, index) => (
-                        <ProductItem key={index} product={product}/>
-                    ))}
-                </div>
+                {productList.length > 0 ? (
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+                        {productList.map((product, index) => (
+                            <ProductItem key={index} product={product} />
+                        ))}
+                    </div>
+                ) : (
+                    <p>No products available.</p>
+                )}
             </div>
         </div>
     )
