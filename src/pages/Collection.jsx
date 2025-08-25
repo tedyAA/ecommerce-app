@@ -18,8 +18,6 @@ const Collection = () => {
             .then((response) => {
                 setProductList(response.data);
                 setLoading(false);
-                console.log(response.data, "list");
-                console.log(response.data);// log the new data
             })
             .catch((err) => {
                 setError(err);
