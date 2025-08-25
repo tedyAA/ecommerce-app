@@ -3,8 +3,14 @@ import {ShopContext} from "../context/ShopContext.jsx";
 import {assets} from "../assets/assets.js";
 import Title from "../components/Title.jsx";
 import ProductItem from "../components/ProductItem.jsx";
+import productsApi from "../api/products";
 
 const Collection = () => {
+
+    const [productList, setProductList] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
     const {products, search, showSearch} = useContext(ShopContext)
     const [showFilter, setShowFilter] = useState(false);
     const [filterProducts, setFilterProducts] = useState([]);
@@ -74,8 +80,23 @@ const Collection = () => {
         sortProduct()
     }, [sortType]);
 
+    useEffect(() => {
+        productsApi
+            .index()
+            .then((response) => {
+                setProductList(response.data); // set data to state
+                setLoading(false);
+                console.log(productList);
+            })
+            .catch((err) => {
+                setError(err);
+                setLoading(false);
+            });
+    }, []);
+
     return (
         <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
+
             <div className='min-w-60'>
                 <p onClick={() => setShowFilter(!showFilter)}
                    className='my-2 text-xl flex items-center cursor-pointer gap-2'>FILTERS
