@@ -1,8 +1,16 @@
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+E-Commerce Clothing Store (React + Vite)
+A fast, modern, and fully static e-commerce web app built with React and Vite. Users can browse clothing items, simulate adding products to a cart, log in, and place orders — all within a sleek and responsive UI. While no backend is connected, the app provides a realistic online shopping experience using local state and mock data.
 
-Currently, two official plugins are available:
+Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🛒 Add-to-Cart simulation
+
+👤 Login & user session simulation
+
+📦 Order placement simulation
+
+⚡ Powered by React + Vite for lightning-fast performance
+
+📱 Responsive design for mobile and desktop
