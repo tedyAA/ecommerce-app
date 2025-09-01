@@ -29,7 +29,6 @@ const Collection = () => {
         }
     };
 
-    // Fetch products based on selected filters
     const fetchProducts = async () => {
         setLoading(true);
         try {

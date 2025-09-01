@@ -26,7 +26,6 @@ const Product = () => {
             .then((response) => {
                 setProduct(response.data);
                 setLoading(false);
-                console.log(response.data, "list");
             })
             .catch((err) => {
                 setError(err);

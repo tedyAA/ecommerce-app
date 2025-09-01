@@ -5,11 +5,11 @@ export default {
     index({ bestseller, per, categories, typeId } = {}) {
         const params = [];
 
-        if (!isEmpty(per)) {
+        if (per !== undefined && per !== null) {
             params.push(`per=${per}`);
         }
 
-        if (!isEmpty(bestseller)) {
+        if (bestseller !== undefined && bestseller !== null) {
             params.push(`bestseller=${bestseller}`);
         }
 
@@ -20,6 +20,7 @@ export default {
         if (!isEmpty(typeId)) {
             params.push(`type=${typeId}`);
         }
+
         const query = params.length ? `?${params.join('&')}` : '';
         return axios.get(`http://127.0.0.1:3000/api/products${query}`);
     },
