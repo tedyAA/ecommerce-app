@@ -1,4 +1,3 @@
-// src/api/products.js
 import axios from "axios";
 import {isEmpty} from "lodash";
 
@@ -6,11 +5,11 @@ export default {
     index({ bestseller, per, categories, typeId } = {}) {
         const params = [];
 
-        if (per !== undefined && per !== null) {
+        if (!isEmpty(per)) {
             params.push(`per=${per}`);
         }
 
-        if (bestseller !== undefined && bestseller !== null) {
+        if (!isEmpty(bestseller)) {
             params.push(`bestseller=${bestseller}`);
         }
 
@@ -22,7 +21,6 @@ export default {
             params.push(`type=${typeId}`);
         }
         const query = params.length ? `?${params.join('&')}` : '';
-console.log(query);
         return axios.get(`http://127.0.0.1:3000/api/products${query}`);
     },
 

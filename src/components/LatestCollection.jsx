@@ -1,5 +1,5 @@
 import React, { useEffect, useState} from 'react';
-import Title from "./Title.jsx";
+import Title from "./global/Title.jsx";
 import ProductItem from "./ProductItem.jsx";
 import productsApi from "../api/products.js";
 

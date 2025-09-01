@@ -1,9 +1,9 @@
 import React from 'react';
-import Hero from '../components/Hero';
+import Hero from '../components/global/Hero.jsx';
 import LatestCollection from "../components/LatestCollection";
 import BestSeller from "../components/BestSeller.jsx";
-import OurPolicy from "../components/OurPolicy.jsx";
-import NewsletterBox from "../components/NewsletterBox.jsx";
+import OurPolicy from "../components/global/OurPolicy.jsx";
+import NewsletterBox from "../components/global/NewsletterBox.jsx";
 
 const Home = () => {
     return (

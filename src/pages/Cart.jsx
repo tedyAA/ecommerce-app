@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import Title from "../components/Title.jsx";
+import Title from "../components/global/Title.jsx";
 import {ShopContext} from "../context/ShopContext.jsx";
 import {assets} from "../assets/assets.js";
 import CartTotal from "../components/CartTotal.jsx";

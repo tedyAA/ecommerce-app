@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { assets } from "../assets/assets.js";
-import Title from "../components/Title.jsx";
+import Title from "../components/global/Title.jsx";
 import ProductItem from "../components/ProductItem.jsx";
 import productsApi from "../api/products";
 import typesApi from "../api/types";
 import categoriesApi from "../api/categories";
+import TypesFilters from "../components/filters/TypesFilters.jsx";
+import CategoryFilter from "../components/filters/CategoriesFilters.jsx";
 
 const Collection = () => {
     const [productList, setProductList] = useState([]);
@@ -55,14 +57,6 @@ const Collection = () => {
         fetchData(typesApi, setTypesList);
     }, []);
 
-    const toggleSelection = (item, listSetter, listState) => {
-        listSetter(
-            listState.includes(item)
-                ? listState.filter(i => i !== item)
-                : [...listState, item]
-        );
-    };
-
     return (
         <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
             <div className='min-w-60'>
@@ -72,49 +66,20 @@ const Collection = () => {
                     <img src={assets.dropdown_icon} className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`} />
                 </p>
 
-                {categoriesList.length > 0 && (
-                    <div className={`border border-gray-300 pl-5 py-3 mt-6 ${showFilter ? '' : 'hidden'} sm:block`}>
-                        <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
-                        <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-                            {categoriesList.map(cat => (
-                                <label key={cat.id} className='flex gap-2 items-center cursor-pointer'>
-                                    <input
-                                        type="checkbox"
-                                        className='w-3 h-3'
-                                        checked={selectedCategories.includes(cat.id)}
-                                        onChange={() => {
-                                            setSelectedCategories(prev =>
-                                                prev.includes(cat.id)
-                                                    ? prev.filter(id => id !== cat.id)
-                                                    : [...prev, cat.id]
-                                            );
-                                        }}
-                                    />
-                                    {cat.name}
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                )}
+                <CategoryFilter
+                    categories={categoriesList}
+                    selectedCategories={selectedCategories}
+                    onChange={setSelectedCategories}
+                    show={showFilter}
+                />
 
-                {typesList.length > 0 && (
-                    <div className={`border border-gray-300 pl-5 py-3 my-5 ${showFilter ? '' : 'hidden'} sm:block`}>
-                        <p className='mb-3 text-sm font-medium'>TYPE</p>
-                        <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
-                            {typesList.map(type => (
-                                <p key={type.id} className='flex gap-2'>
-                                    <input
-                                        type="checkbox"
-                                        className='w-3'
-                                        checked={selectedTypes.includes(type.id)}
-                                        onChange={() => toggleSelection(type.id, setSelectedTypes, selectedTypes)}
-                                    />
-                                    {type.name}
-                                </p>
-                            ))}
-                        </div>
-                    </div>
-                )}
+
+                <TypesFilters
+                    types={typesList}
+                    selectedTypes={selectedTypes}
+                    onChange={setSelectedTypes}
+                    show={showFilter}
+                />
 
             </div>
 
