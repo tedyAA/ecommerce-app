@@ -12,9 +12,9 @@ import Orders from "./pages/Orders.jsx";
 import NavBar from "./components/global/NavBar.jsx";
 import Footer from "./components/global/Footer.jsx";
 import SearchBar from "./components/global/SearchBar.jsx";
-import {ToastContainer, toast} from 'react-toastify';
-
+import {ToastContainer} from 'react-toastify';
 const App = () => {
+
     return (
         <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
             <ToastContainer/>
