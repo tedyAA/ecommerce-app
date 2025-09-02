@@ -17,6 +17,20 @@ export default {
             },
             { withCredentials: true }
         );
-    }
+    },
+    async current() {
+        try {
+            const token = localStorage.getItem('auth_token');
+            if (!token) return null;
 
+            const response = await axios.get('http://localhost:3000/api/current_user', {
+                headers: {Authorization: `Bearer ${token}`},
+            });
+
+            return response.data;
+        } catch (err) {
+            console.error('Unable to fetch current user:', err);
+            return null;
+        }
+    }
 };
