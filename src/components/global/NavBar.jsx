@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {assets} from "../../assets/assets.js";
 import {Link, NavLink} from "react-router-dom";
 import {ShopContext} from "../../context/ShopContext.jsx";
@@ -7,6 +7,13 @@ const NavBar = () => {
 
     const [visible, setVisible] = useState(false);
     const {setShowSearch, getCartCount} = useContext(ShopContext)
+
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    useEffect(() => {
+        const token = localStorage.getItem('auth_token');
+        setIsLoggedIn(!!token); // true if token exists
+    }, []);
 
     return (
         <div className="flex items-center justify-between py-5 font-medium">
@@ -32,15 +39,17 @@ const NavBar = () => {
             <div className='flex items-center gap-6'>
                 <img src={assets.search_icon} onClick={() => setShowSearch(true)} className='w-5 cursor-pointer'/>
                 <div className='group relative'>
-                    <Link to='/login'>
+                    <Link to={isLoggedIn ? '/account' : '/login'}>
                         <img src={assets.profile_icon} className='w-5 cursor-pointer'/>
 
                     </Link>
                     <div className='group-hover:block hidden absolute dropdown-menu right-0 pt-4'>
                         <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
-                            <Link to='/account'> <p className='cursor-pointer hover:text-black'>My Profile</p></Link>
+                            <Link to={isLoggedIn ? '/account' : '/login'}> <p className='cursor-pointer hover:text-black'>My Profile</p></Link>
                             <p className='cursor-pointer hover:text-black'>Orders</p>
-                            <p className='cursor-pointer hover:text-black'>Logout</p>
+                            {isLoggedIn && (
+                                <p className='cursor-pointer hover:text-black'>Logout</p>
+                            )}
                         </div>
                     </div>
                 </div>
