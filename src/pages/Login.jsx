@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import auth from "../api/users/auth.js";
-
-axios.defaults.withCredentials = true;
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+    const navigate = useNavigate();
     const [mode, setMode] = useState('Login');
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
@@ -25,10 +24,14 @@ const Login = () => {
                 }
 
                 console.log('Logged in:', response.data.user);
+
+                navigate('/account');
             } else {
                 response = await auth.signup(firstName, lastName, email, password );
 
                 console.log('User created:', response.data);
+
+                setMode('Login');
             }
         } catch (err) {
             console.error('Authentication failed:', err.response?.data || err);
