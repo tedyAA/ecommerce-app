@@ -9,7 +9,7 @@ const LatestCollection = () => {
 
     useEffect(() => {
         productsApi.index({ per: 5 })
-            .then(res => setProducts(res.data))
+            .then(res => setProducts(res.data.products))
             .catch(console.error)
             .finally(() => setLoading(false));
     }, []);

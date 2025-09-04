@@ -13,7 +13,7 @@ const BestSeller = () => {
         productsApi
             .index({bestseller: true, per: 5, random:true})
             .then((response) => {
-                setBestSeller(response.data);
+                setBestSeller(response.data.products);
                 setLoading(false);
             })
             .catch((err) => {
