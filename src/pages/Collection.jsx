@@ -7,6 +7,7 @@ import typesApi from "../api/types";
 import categoriesApi from "../api/categories";
 import TypesFilters from "../components/filters/TypesFilters.jsx";
 import CategoryFilter from "../components/filters/CategoriesFilters.jsx";
+import Pagination from "../components/global/Pagination.jsx";
 
 const Collection = () => {
     const [productList, setProductList] = useState([]);
@@ -18,6 +19,7 @@ const Collection = () => {
     const [selectedCategories, setSelectedCategories] = useState([]);
     const [selectedTypes, setSelectedTypes] = useState([]);
     const [showFilter, setShowFilter] = useState(false);
+    const [pagination, setPagination] = useState({ current_page: 1, total_pages: 1 });
 
     // Generic fetch function
     const fetchData = async (apiCall, setter) => {
@@ -29,17 +31,29 @@ const Collection = () => {
         }
     };
 
-    const fetchProducts = async () => {
+    const fetchProducts = async (page = 1) => {
         setLoading(true);
         try {
             const params = {
-                categories: selectedCategories.join(','),
-                typeId: selectedTypes.join(','),
+                page,
+                per: 12, // adjust items per page
             };
 
-            console.log(params);
+            if (selectedCategories.length > 0) {
+                params.category = selectedCategories.join(',');
+            }
+
+            if (selectedTypes.length > 0) {
+                params.type = selectedTypes.join(',');
+            }
+
             const response = await productsApi.index(params);
-            setProductList(response.data);
+
+            setProductList(response.data.products);
+            setPagination({
+                current_page: response.data.current_page,
+                total_pages: response.data.total_pages,
+            });
         } catch (err) {
             setError(err);
         } finally {
@@ -48,7 +62,7 @@ const Collection = () => {
     };
 
     useEffect(() => {
-        fetchProducts();
+        fetchProducts(1);
     }, [selectedCategories, selectedTypes]);
 
     useEffect(() => {
@@ -95,10 +109,17 @@ const Collection = () => {
                 {loading ? (
                     <p>Loading products...</p>
                 ) : productList.length > 0 ? (
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
-                        {productList.map((product) => (
-                            <ProductItem key={product.id} product={product} />
-                        ))}
+                    <div>
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
+                            {productList.map((product) => (
+                                <ProductItem key={product.id} product={product}/>
+                            ))}
+                        </div>
+                        <Pagination
+                            currentPage={pagination.current_page}
+                            totalPages={pagination.total_pages}
+                            onPageChange={(page) => fetchProducts(page)}
+                        />
                     </div>
                 ) : (
                     <p>No products available.</p>

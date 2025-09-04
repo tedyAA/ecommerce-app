@@ -2,11 +2,15 @@ import axios from "axios";
 import {isEmpty} from "lodash";
 
 export default {
-    index({ bestseller, per, categories, typeId, term, random } = {}) {
+    index({ bestseller, per, page, categories, typeId, term, random } = {}) {
         const params = [];
 
         if (per !== undefined && per !== null) {
             params.push(`per=${per}`);
+        }
+
+        if (page) {
+            params.push(`page=${page}`);
         }
 
         if (bestseller !== undefined && bestseller !== null) {
