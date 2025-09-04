@@ -11,7 +11,7 @@ const BestSeller = () => {
 
     useEffect(() => {
         productsApi
-            .index({bestseller: true})
+            .index({bestseller: true, per: 5, random:true})
             .then((response) => {
                 setBestSeller(response.data);
                 setLoading(false);

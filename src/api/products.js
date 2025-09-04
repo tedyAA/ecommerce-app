@@ -2,7 +2,7 @@ import axios from "axios";
 import {isEmpty} from "lodash";
 
 export default {
-    index({ bestseller, per, categories, typeId, term } = {}) {
+    index({ bestseller, per, categories, typeId, term, random } = {}) {
         const params = [];
 
         if (per !== undefined && per !== null) {
@@ -24,8 +24,11 @@ export default {
         if (!isEmpty(term)) {
             params.push(`term=${term}`);
         }
-console.log(term)
-        console.log(params)
+
+        if (random) {
+            params.push(`random=${random}`);
+        }
+
         const query = params.length ? `?${params.join('&')}` : '';
         return axios.get(`http://127.0.0.1:3000/api/products${query}`);
     },
