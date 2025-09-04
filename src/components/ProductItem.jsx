@@ -1,16 +1,29 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
+import {assets} from "../assets/assets.js";
 
 const ProductItem = ({product}) => {
 
     return (
-        <Link className='text-gray-700 cursor-pointer' to={`/product/${product.id}`}>
-            <div className='overflow-hidden'>
-                <img className='hover:scale-110 h-[380px] transition ease-in-out duration-200' src={product.image_urls[0]} alt=''/>
+        <Link
+            className="text-gray-700 cursor-pointer"
+            to={`/product/${product.id}`}
+        >
+            <div className="overflow-hidden h-[390px]">
+                <img
+                    className="w-full h-full object-cover hover:scale-110 transition ease-in-out duration-200"
+                    src={product.image_urls[0]}
+                    alt={product.name}
+                />
             </div>
-            <p className='pt-3 pb-1 text-sm'>{product.name}</p>
-            <p className='pt-3 pb-1 text-sm'>{product.price /100} $</p>
+            <div className="flex justify-between items-center">
+                <div>
+                    <p className="pt-3 pb-1 text-sm">{product.name}</p>
+                    <p className="pt-3 pb-1 text-sm">{product.price / 100} $</p>
+                </div>
+                <img src={assets.cart_icon} className="w-[20px] h-[20px]" />
+            </div>
         </Link>
     )
 }
