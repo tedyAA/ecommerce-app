@@ -36,7 +36,9 @@ const Collection = () => {
         try {
             const params = {
                 page,
-                per: 12, // adjust items per page
+                per: 12,
+                categories: selectedCategories.join(','),
+                typeId: selectedTypes.join(','),
             };
 
             if (selectedCategories.length > 0) {

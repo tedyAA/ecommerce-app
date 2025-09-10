@@ -2,9 +2,13 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {assets} from "../assets/assets.js";
+import {isEmpty} from "lodash";
 
 const ProductItem = ({product}) => {
-
+    const productImage = () => {
+        console.log(product?.image_urls?.[0]);
+        return product?.image_urls?.[0] || "https://placehold.co/600x400?font=roboto";
+    };
     return (
         <Link
             className="text-gray-700 cursor-pointer"
@@ -13,7 +17,7 @@ const ProductItem = ({product}) => {
             <div className="overflow-hidden h-[390px]">
                 <img
                     className="w-full h-full object-cover hover:scale-110 transition ease-in-out duration-200"
-                    src={product.image_urls[0]}
+                    src={productImage()}
                     alt={product.name}
                 />
             </div>
