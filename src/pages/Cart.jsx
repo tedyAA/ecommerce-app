@@ -1,74 +1,61 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Title from "../components/global/Title.jsx";
-import {ShopContext} from "../context/ShopContext.jsx";
-import {assets} from "../assets/assets.js";
-import CartTotal from "../components/CartTotal.jsx";
+import auth from "../api/users/auth.js";
+
 
 const Cart = () => {
+    const [cartItems, setCartItems] = React.useState([]);
+    const [user, setUser] = useState(null);
 
-    const {products, currency, cartItems, updateQuantity, navigate} = useContext(ShopContext);
+    const getUser = async () => {
+        try {
+            const data = await auth.current();
+            setUser(data);
+            fetchCart(data.cart_id)
+        } catch (error) {
+            console.error("Failed to fetch user", error);
+        }
+    };
 
-    const [cartData, setCartData] = useState([]);
+    const fetchCart = async (userCartId) => {
+        const token = localStorage.getItem('auth_token');
+
+        const response = await fetch(`http://127.0.0.1:3000/api/carts/${userCartId}`, {
+            headers: {Authorization: `Bearer ${token}`},
+        });
+        const data = await response.json();
+
+        setCartItems(data.cart_items);
+        console.log(data);
+        return data.cart_items; // array of items with product info
+    };
 
     useEffect(() => {
-        const tempData = []
-        for (const items in cartItems) {
-            for (const item in cartItems[items]) {
-                if (cartItems[items][item] > 0) {
-                    tempData.push({
-                        _id: items,
-                        size: item,
-                        quantity: cartItems[items][item],
-                    });
-                }
-            }
-        }
-        setCartData(tempData)
-    }, [cartItems]);
+        getUser()
+    }, []);
+
     return (
         <div className='border-t pt-14'>
             <div className='text-2xl mb-3'>
                 <Title text1='YOUR' text2="CART"/>
             </div>
-            <div>
-                {
-                    cartData.map((item, index) => {
-                        const productData = products.find((product) => product._id === item._id);
-                        return (
-                            <div key={index}
-                                 className='py-4 border-t border-b text-gray-700 grid geid-cols-[4fr_0.5fr_0.5fr] sm:grid-cols-[4fr_2fr_0.5fr] items-center gap-4'>
-                                <div className='flex items-start gap-6'>
-                                    <img src={productData.image[0]} className="w-16 sm:w-20"/>
-                                    <div>
-                                        <p className='text-xs sm:text-lg font-medium'>{productData.name}</p>
-                                        <div className="flex items-center pag-5 mt-2">
-                                            <p>{currency}{productData.price}</p>
-                                            <p className="px-2 sm:px-3 sm:py-1 border bg-slate-50">{item.size}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <input
-                                    onChange={(e) => e.target.value === '' || e.target.value === '0' ? null : updateQuantity(item._id, item.size, Number(e.target.value))}
-                                    type="number" min={1} defaultValue={item.quantity}
-                                    className="border max-w-10 sm:max-w-20 px-1 sm:px-2 py-1"/>
-                                <img onClick={() => updateQuantity(item._id, item.size, 0)} src={assets.bin_icon}
-                                     className="w-4 mr-4 sm:w-5 cursor-pointer"/>
-                            </div>
-                        )
-                    })
-                }
-            </div>
-            <div className="flex justify-end my-20">
-                <div className="w-full sm:w-[450px]">
-                    <CartTotal/>
-                    <div className='w-full text-end'>
-                        <button onClick={() => navigate('/place-order')}
-                                className="bg-black text-white text-sm my-8 px-8 py-3">PROSEED TO CHECKOUT
-                        </button>
+            {cartItems.length > 0 ? (
+                cartItems.map((item) => (
+                    <div className="flex" key={item.id}>
+                        <p className="mx-2">{item.product.name}</p>
+                        <p>{item.product.price / 100}$</p>
                     </div>
+                ))
+            ) : (
+                <p>No items in cart</p>
+            )}
+
+            <div className='text-2xl mb-3 mt-6'>
+                    <Title text1='Grand Total: $' text2={(
+                        cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0) / 100
+                    ).toFixed(2)}/>
                 </div>
-            </div>
         </div>
-    )
+)
 }
 export default Cart;

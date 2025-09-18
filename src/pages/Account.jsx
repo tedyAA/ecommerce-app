@@ -13,21 +13,25 @@ const Account = () => {
         try {
             const data = await auth.current();
             setUser(data);
+            console.log(data)
         } catch (error) {
             console.error("Failed to fetch user", error);
         }
     };
 
     const avatarUrl = () =>{
-        console.log(user.avatar_url)
-        return !isEmpty(user.avatar_url) ? user.avatar_url : 'https://placehold.co/200x200'
+        return user && !isEmpty(user.avatar_url) ? user.avatar_url : 'https://placehold.co/200x200'
     }
 
     useEffect(() => {
         updateUser();
     }, []);
 
-    if (!user) return <p>Loading...</p>;
+    if (!user) return<div>
+        <div className='card'>
+            <h1>Log in to view all your details :)</h1>
+        </div>
+    </div>;
     return (
         <div className='flex flex-row items-start justify-center gap-10'>
             <div className='flex flex-col justify-start p-5 items-center border border-gray-800 p-5'>
