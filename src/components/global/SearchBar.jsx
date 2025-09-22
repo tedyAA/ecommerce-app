@@ -28,8 +28,6 @@ const SearchBar = () => {
 
         fetchData(productsApi, term);
 
-        console.log(term);
-        console.log(search);
     }
     return showSearch ? (
         <div>

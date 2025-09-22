@@ -5,7 +5,6 @@ import {assets} from "../assets/assets.js";
 
 const ProductItem = ({product}) => {
     const productImage = () => {
-        console.log(product?.image_urls?.[0]);
         return product?.image_urls?.[0] || "https://placehold.co/600x400?font=roboto";
     };
     const addToCart = async (productId, quantity = 1) => {

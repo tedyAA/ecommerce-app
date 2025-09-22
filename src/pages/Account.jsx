@@ -13,7 +13,8 @@ const Account = () => {
         try {
             const data = await auth.current();
             setUser(data);
-            console.log(data)
+            console.error(data, "profile")
+            console.error("profile")
         } catch (error) {
             console.error("Failed to fetch user", error);
         }

@@ -26,7 +26,6 @@ const Cart = () => {
         const data = await response.json();
 
         setCartItems(data.cart_items);
-        console.log(data);
         return data.cart_items; // array of items with product info
     };
 

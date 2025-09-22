@@ -21,17 +21,18 @@ export default {
     async current() {
         try {
             const token = localStorage.getItem('auth_token');
-            console.log(token, 'token')
             if (!token) return null;
-            if (!token) console.log('no user');
 
             const response = await axios.get('http://localhost:3000/api/current_user', {
                 headers: {Authorization: `Bearer ${token}`},
             });
-            console.log(response);
             return response.data;
         } catch (err) {
             console.error('Unable to fetch current user:', err);
+            if(err.status === 401){
+                localStorage.removeItem("auth_token");
+                window.location.href = "/login";
+            }
             return null;
         }
     }
