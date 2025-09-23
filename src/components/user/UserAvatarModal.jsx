@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
     const [file, setFile] = useState(null);
@@ -7,7 +7,7 @@ const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
     const [loading, setLoading] = useState(false);
 
     const handleFileChange = (e) => {
-        const selected = e.target.files[0];
+        const selected = e.target.files?.[0];
         if (selected) {
             setFile(selected);
             setPreview(URL.createObjectURL(selected));
@@ -19,9 +19,9 @@ const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
         setLoading(true);
 
         const formData = new FormData();
-        formData.append('avatar', file);
+        formData.append("avatar", file);
 
-        const token = localStorage.getItem('auth_token');
+        const token = localStorage.getItem("auth_token");
         if (!token) {
             setLoading(false);
             return;
@@ -29,11 +29,11 @@ const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
 
         try {
             const response = await axios.patch(
-                'http://localhost:3000/api/users/update_avatar',
+                "http://localhost:3000/api/users/update_avatar",
                 formData,
                 {
                     headers: {
-                        'Content-Type': 'multipart/form-data',
+                        "Content-Type": "multipart/form-data",
                         Authorization: `Bearer ${token}`,
                     },
                 }
@@ -50,27 +50,37 @@ const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-6 w-auto flex flex-col items-center gap-4 relative">
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+            <div className="bg-white rounded-2xl shadow-lg p-6 w-[90%] max-w-md flex flex-col items-center gap-5 relative animate-fadeIn">
                 <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
+                    className="absolute top-3 right-3 text-gray-400 hover:text-gray-600 transition"
                 >
                     ✕
                 </button>
-                <h2 className="text-xl font-semibold">Update Avatar</h2>
-                {preview && (
+                <h2 className="text-2xl font-bold text-gray-800">Update Avatar</h2>
+                <div className="w-64 h-64 rounded-full overflow-hidden border-4 border-gray-200 shadow-md">
                     <img
-                        src={preview}
+                        src={preview || "https://placehold.co/128x128?text=No+Avatar"}
                         alt="Avatar Preview"
-                        className="w-100 h-100 rounded-full object-cover"
+                        className="w-full h-full object-cover"
                     />
-                )}
-                <input type="file" accept="image/*" onChange={handleFileChange} />
+                </div>
+                <label className="cursor-pointer w-full text-center">
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileChange}
+                        className="block w-full text-sm text-gray-500 file:mr-3 file:py-2 file:px-4
+                       file:rounded-md file:border-0 file:text-sm file:font-semibold
+                       file:bg-gray-100 file:text-gray-700 hover:file:bg-gray-200"
+                    />
+                </label>
                 <button
                     onClick={handleUpload}
                     disabled={loading}
-                    className="bg-black text-white px-4 py-2 disabled:opacity-50"
+                    className="px-6 py-2 rounded-xl bg-blue-600 text-white font-medium shadow-md
+                     hover:bg-blue-700 disabled:opacity-50 transition"
                 >
                     {loading ? "Uploading..." : "Upload"}
                 </button>

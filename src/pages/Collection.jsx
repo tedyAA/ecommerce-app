@@ -21,7 +21,6 @@ const Collection = () => {
     const [showFilter, setShowFilter] = useState(false);
     const [pagination, setPagination] = useState({ current_page: 1, total_pages: 1 });
 
-    // Generic fetch function
     const fetchData = async (apiCall, setter) => {
         try {
             const response = await apiCall.index();

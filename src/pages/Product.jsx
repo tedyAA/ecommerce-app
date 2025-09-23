@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { assets } from "../assets/assets.js";
 import productsApi from "../api/products.js";
 import {useParams} from 'react-router-dom'
 import {isEmpty} from "lodash";
@@ -11,9 +10,7 @@ const Product = () => {
     const {productId} = useParams()
 
     const [image, setImage] = useState('');
-    const [size, setSize] = useState('');
 
-    // Set first image once productList is loaded
     useEffect(() => {
         if (!isEmpty(product)) {
             setImage(product.image_urls[0]);
@@ -59,7 +56,6 @@ const Product = () => {
                     <h1 className='font-medium text-2xl mt-2'>{product.name}</h1>
                     <p className='mt-5 text-3xl font-medium'>{product.price / 100}</p>
                     <p className='mt-5 text-gray md:w-3/4'>{product.description}</p>
-                    {/* ... rest of your JSX ... */}
                 </div>
             </div>
         </div>

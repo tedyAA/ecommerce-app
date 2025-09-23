@@ -12,7 +12,7 @@ const Cart = () => {
         try {
             const data = await auth.current();
             setUser(data);
-            fetchCart(data.cart_id)
+            await fetchCart(data.cart_id)
         } catch (error) {
             console.error("Failed to fetch user", error);
         }

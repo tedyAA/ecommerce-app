@@ -8,8 +8,6 @@ import Contact from "./pages/Contact.jsx";
 import Product from "./pages/Product.jsx";
 import Cart from "./pages/Cart.jsx";
 import Login from "./pages/Login.jsx";
-import PlaceOrder from "./pages/PlaceOrder.jsx";
-import Orders from "./pages/Orders.jsx";
 import NavBar from "./components/global/NavBar.jsx";
 import Footer from "./components/global/Footer.jsx";
 import SearchBar from "./components/global/SearchBar.jsx";
@@ -30,8 +28,6 @@ const App = () => {
                 <Route path="/product/:productId" element={<Product/>}/>
                 <Route path="/cart" element={<Cart/>}/>
                 <Route path="/login" element={<Login/>}/>
-                <Route path="/place-order" element={<PlaceOrder/>}/>
-                <Route path="/orders" element={<Orders/>}/>
             </Routes>
             <Footer/>
         </div>
