@@ -39,8 +39,8 @@ const Account = () => {
         );
 
     return (
-        <div className="flex flex-row items-start justify-center gap-10 mt-10">
-            <div className="flex flex-col items-center bg-white rounded-2xl shadow-md p-6 w-64">
+        <div className="block md:flex md:flex-col lg:flex-row items-start justify-center gap-6 lg:gap-10 mt-10 px-4 lg:px-0">
+            <div className="block md:flex md:flex-row lg:flex-col items-center lg:items-start bg-white rounded-2xl shadow-md p-6 w-full lg:w-64">
                 <UserAvatarModal
                     isOpen={isAvatarModalOpen}
                     onClose={() => setAvatarModalOpen(false)}
@@ -50,48 +50,50 @@ const Account = () => {
                 <img
                     src={avatarUrl()}
                     alt="Avatar"
-                    className="rounded-full mb-5 w-40 h-40 object-cover border-4 border-gray-200 shadow cursor-pointer hover:opacity-90 transition"
+                    className="rounded-full mb-5 w-32 h-32 lg:w-40 lg:h-40 object-cover border-4 border-gray-200 shadow cursor-pointer hover:opacity-90 transition"
                     onClick={() => setAvatarModalOpen(true)}
                 />
 
-                <div
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg w-full cursor-pointer ${
-                        page === "Profile"
-                            ? "bg-blue-100 text-blue-700 font-medium"
-                            : "text-gray-700 hover:bg-gray-100"
-                    }`}
-                    onClick={() => setPage("Profile")}
-                >
-                    <img src={assets.profile_icon} className="w-5 h-5" />
-                    <p>Profile</p>
-                </div>
+                <div className="block md:flex md:flex-row lg:flex-col gap-2 w-full">
+                    <div
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg w-full cursor-pointer ${
+                            page === "Profile"
+                                ? "bg-blue-100 text-blue-700 font-medium"
+                                : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setPage("Profile")}
+                    >
+                        <img src={assets.profile_icon} className="w-5 h-5" />
+                        <p>Profile</p>
+                    </div>
 
-                <div
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg w-full cursor-pointer ${
-                        page === "Orders"
-                            ? "bg-blue-100 text-blue-700 font-medium"
-                            : "text-gray-700 hover:bg-gray-100"
-                    }`}
-                    onClick={() => setPage("Orders")}
-                >
-                    <img src={assets.cart_icon} className="w-5 h-5" />
-                    <p>Orders</p>
-                </div>
+                    <div
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg w-full cursor-pointer ${
+                            page === "Orders"
+                                ? "bg-blue-100 text-blue-700 font-medium"
+                                : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setPage("Orders")}
+                    >
+                        <img src={assets.cart_icon} className="w-5 h-5" />
+                        <p>Orders</p>
+                    </div>
 
-                <div
-                    className={`flex items-center gap-2 px-3 py-2 rounded-lg w-full cursor-pointer ${
-                        page === "Password"
-                            ? "bg-blue-100 text-blue-700 font-medium"
-                            : "text-gray-700 hover:bg-gray-100"
-                    }`}
-                    onClick={() => setPage("Password")}
-                >
-                    <img src={assets.search_icon} className="w-5 h-5" />
-                    <p>Change Password</p>
+                    <div
+                        className={`flex items-center gap-2 px-3 py-2 rounded-lg w-full cursor-pointer ${
+                            page === "Password"
+                                ? "bg-blue-100 text-blue-700 font-medium"
+                                : "text-gray-700 hover:bg-gray-100"
+                        }`}
+                        onClick={() => setPage("Password")}
+                    >
+                        <img src={assets.search_icon} className="w-5 h-5" />
+                        <p>Change Password</p>
+                    </div>
                 </div>
             </div>
 
-            <div className="flex flex-col items-start bg-white rounded-2xl shadow-md p-8 w-[50%]">
+            <div className="flex flex-col items-start bg-white rounded-2xl shadow-md p-6 lg:p-8 w-full lg:w-[50%] mt-6 lg:mt-0">
                 {page === "Profile" && (
                     <div className="w-full">
                         <h1 className="mb-5 text-2xl font-semibold text-gray-800">
@@ -124,14 +126,14 @@ const Account = () => {
                             className="w-full px-3 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
                             readOnly
                         />
-                        <button className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+                        <button className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition w-full lg:w-auto">
                             Update Account
                         </button>
                     </div>
                 )}
 
                 {page === "Orders" && (
-                    <div className="w-full text-center text-gray-600">
+                    <div className="w-full text-center text-gray-600 py-10">
                         <h1 className="text-lg font-medium">No Orders Yet</h1>
                     </div>
                 )}
@@ -165,7 +167,7 @@ const Account = () => {
                             placeholder="Confirm New Password"
                             className="w-full px-3 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
                         />
-                        <button className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+                        <button className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition w-full lg:w-auto">
                             Change Password
                         </button>
                     </div>
