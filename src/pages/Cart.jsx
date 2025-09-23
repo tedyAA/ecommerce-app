@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Title from "../components/global/Title.jsx";
 import auth from "../api/users/auth.js";
+import cart from "../api/users/cart.js";
 
 
 const Cart = () => {
@@ -18,15 +19,8 @@ const Cart = () => {
     };
 
     const fetchCart = async (userCartId) => {
-        const token = localStorage.getItem('auth_token');
-
-        const response = await fetch(`http://127.0.0.1:3000/api/carts/${userCartId}`, {
-            headers: {Authorization: `Bearer ${token}`},
-        });
-        const data = await response.json();
-
-        setCartItems(data.cart_items);
-        return data.cart_items; // array of items with product info
+        const response = await cart.index(userCartId);
+        setCartItems(response.data.cart_items);
     };
 
     useEffect(() => {
@@ -38,7 +32,7 @@ const Cart = () => {
             <div className='text-2xl mb-3'>
                 <Title text1='YOUR' text2="CART"/>
             </div>
-            {cartItems.length > 0 ? (
+            {cartItems?.length > 0 ? (
                 cartItems.map((item) => (
                     <div
                         key={item.id}
