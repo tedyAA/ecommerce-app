@@ -53,9 +53,8 @@ const NavBar = () => {
                         </div>
                     </div>
                 </div>
-                <Link to='/cart' className='relative'>
+                <Link to='/cart' className='relative cursor-pointer'>
                     <img src={assets.cart_icon} className='w-5 min-w-5'/>
-                    <p className='absolute right-[-5px] bottom-[-5px] w-4 text-center leading-4 bg-black text-white aspect-squre rounded-full text-[8px]'>{getCartCount()}</p>
                 </Link>
                 <img onClick={() => setVisible(true)} src={assets.menu_icon} className='w-5 cursor-pointer sm:hidden'/>
             </div>

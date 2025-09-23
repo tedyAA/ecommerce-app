@@ -28,9 +28,6 @@ const Login = () => {
                 navigate('/account');
             } else {
                 response = await auth.signup(firstName, lastName, email, password );
-
-                console.log('User created:', response.data);
-
                 setMode('Login');
             }
         } catch (err) {

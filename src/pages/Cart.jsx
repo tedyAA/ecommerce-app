@@ -40,9 +40,16 @@ const Cart = () => {
             </div>
             {cartItems.length > 0 ? (
                 cartItems.map((item) => (
-                    <div className="flex" key={item.id}>
-                        <p className="mx-2">{item.product.name}</p>
-                        <p>{item.product.price / 100}$</p>
+                    <div className="flex p-2 items-center border border-2 mb-2" key={item.id}>
+                        <img src="https://placehold.co/100x100" alt=""/>
+                        <div>
+                            <p className="mx-2">{item.product.name}</p>
+                            <p className="mx-2">{item.product.description}</p>
+                            <div>
+                                <p>{(item.product.price / 100 * item.quantity)}$</p>
+                                <p>quantity {item.quantity}</p>
+                            </div>
+                        </div>
                     </div>
                 ))
             ) : (

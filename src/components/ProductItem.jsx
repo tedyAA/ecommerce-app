@@ -40,7 +40,7 @@ const ProductItem = ({product}) => {
                     <p className="pt-3 pb-1 text-sm">{product.name}</p>
                     <p className="pt-3 pb-1 text-sm">{product.price / 100} $</p>
                 </div>
-                <img src={assets.cart_icon} onClick={() => addToCart(product.id)} className="w-[20px] h-[20px]"/>
+                <img src={assets.cart_icon} onClick={() => addToCart(product.id)} className="w-[20px] h-[20px] cursor-pointer" />
             </div>
         </div>
 )
