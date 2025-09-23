@@ -12,7 +12,7 @@ const SearchBar = () => {
     const fetchData = async (apiCall, term) => {
         try {
             const response = await apiCall.index({term: term});
-            setProducts(response.data);
+            setProducts(response.data.products);
         } catch (err) {
            console.log(err);
         }
