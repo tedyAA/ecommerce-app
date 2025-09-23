@@ -13,7 +13,7 @@ const CategoryFilter = ({ categories, selectedCategories, onChange, show = true 
     };
 
     return (
-        <div className={`border border-gray-300 pl-5 py-3 mt-6 ${show ? '' : 'hidden'} sm:block`}>
+        <div className={`flex flex-col items-center bg-white rounded-2xl shadow-md p-6 w-64 mb-2 ${show ? '' : 'hidden'} sm:block`}>
             <p className='mb-3 text-sm font-medium'>CATEGORIES</p>
             <div className='flex flex-col gap-2 text-sm font-light text-gray-700'>
                 {categories.map(category => (
