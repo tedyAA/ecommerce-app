@@ -8,6 +8,7 @@ import categoriesApi from "../api/categories";
 import TypesFilters from "../components/filters/TypesFilters.jsx";
 import CategoryFilter from "../components/filters/CategoriesFilters.jsx";
 import Pagination from "../components/global/Pagination.jsx";
+import LoadingProductItem from "../components/LoadingProductItem.jsx";
 
 const Collection = () => {
     const [productList, setProductList] = useState([]);
@@ -58,8 +59,11 @@ const Collection = () => {
         } catch (err) {
             setError(err);
         } finally {
-            setLoading(false);
+            setTimeout(() => {
+                setLoading(false);
+            }, 3000);
         }
+
     };
 
     useEffect(() => {
@@ -108,7 +112,11 @@ const Collection = () => {
                 </div>
 
                 {loading ? (
-                    <p>Loading products...</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        {Array.from({length: 8}).map((_, i) => (
+                            <LoadingProductItem key={i}/>
+                        ))}
+                    </div>
                 ) : productList.length > 0 ? (
                     <div>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
