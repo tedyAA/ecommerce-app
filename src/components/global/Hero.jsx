@@ -39,6 +39,14 @@ const Hero = ({heroImg, page}) => {
 
                     </div>
                 )}
+                {page === 'Contacts' && (
+                    <div>
+                        <div className='text-[#414141]'>
+                            <h1 className='prata-regular text=3xl sm:py-3 lg:text-5xl leading-relaxed'>Contact Us</h1>
+                        </div>
+
+                    </div>
+                )}
             </div>
             <img src={heroImg} className='w-full sm:w-1/2'/>
         </div>
