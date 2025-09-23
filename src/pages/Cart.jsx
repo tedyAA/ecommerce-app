@@ -40,14 +40,25 @@ const Cart = () => {
             </div>
             {cartItems.length > 0 ? (
                 cartItems.map((item) => (
-                    <div className="flex p-2 items-center border border-2 mb-2" key={item.id}>
-                        <img src="https://placehold.co/100x100" alt=""/>
-                        <div>
-                            <p className="mx-2">{item.product.name}</p>
-                            <p className="mx-2">{item.product.description}</p>
-                            <div>
-                                <p>{(item.product.price / 100 * item.quantity)}$</p>
-                                <p>quantity {item.quantity}</p>
+                    <div
+                        key={item.id}
+                        className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border mb-3"
+                    >
+                        <img
+                            src="https://placehold.co/100x100"
+                            alt={item.product.name}
+                            className="w-20 h-20 rounded-lg object-cover"
+                        />
+
+                        <div className="flex flex-col flex-1">
+                            <p className="text-lg font-semibold text-gray-800">{item.product.name}</p>
+                            <p className="text-sm text-gray-500">{item.product.description}</p>
+
+                            <div className="flex items-center justify-between mt-2">
+                                <p className="text-base font-bold text-gray-900">
+                                    ${(item.product.price / 100 * item.quantity).toFixed(2)}
+                                </p>
+                                <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
                             </div>
                         </div>
                     </div>
@@ -57,11 +68,11 @@ const Cart = () => {
             )}
 
             <div className='text-2xl mb-3 mt-6'>
-                    <Title text1='Grand Total: $' text2={(
-                        cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0) / 100
-                    ).toFixed(2)}/>
-                </div>
+                <Title text1='Grand Total: $' text2={(
+                    cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0) / 100
+                ).toFixed(2)}/>
+            </div>
         </div>
-)
+    )
 }
 export default Cart;
