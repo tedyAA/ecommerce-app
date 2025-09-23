@@ -43,7 +43,7 @@ const Account = () => {
                 <img
                     src={avatarUrl()}
                     alt='Avatar'
-                    className='rounded-full mb-5 w-[200px] cursor-pointer'
+                    className='rounded-full mb-5 w-[200px] h-[200px] cursor-pointer'
                     onClick={() => setAvatarModalOpen(true)}
                 />
                 <div className='flex cursor-pointer mb-2 items-center' onClick={() => setPage('Profile')}>
