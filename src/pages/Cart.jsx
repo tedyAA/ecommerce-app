@@ -67,10 +67,23 @@ const Cart = () => {
                 <p>No items in cart</p>
             )}
 
-            <div className='text-2xl mb-3 mt-6'>
-                <Title text1='Grand Total: $' text2={(
-                    cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0) / 100
-                ).toFixed(2)}/>
+            <div className="flex items-center justify-between p-4 mt-6">
+                <div className="text-xl font-semibold text-gray-800">
+                    <Title
+                        text1="Grand Total: $"
+                        text2={(
+                            cartItems.reduce(
+                                (acc, item) => acc + item.product.price * item.quantity,
+                                0
+                            ) / 100
+                        ).toFixed(2)}
+                    />
+                </div>
+
+                <button
+                    className="px-6 py-2 bg-blue-600 text-white text-base font-medium rounded-xl shadow hover:bg-blue-700 transition">
+                    Checkout
+                </button>
             </div>
         </div>
     )
