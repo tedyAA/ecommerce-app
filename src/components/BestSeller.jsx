@@ -2,11 +2,12 @@ import React, { useEffect, useState} from 'react';
 import Title from "./global/Title.jsx";
 import ProductItem from "./ProductItem.jsx";
 import productsApi from "../api/products.js";
+import LoadingProductItem from "./LoadingProductItem.jsx";
 
 const BestSeller = () => {
 
     const [bestSeller, setBestSeller] = useState([]);
-    const [loading, setLoading] = useState([]);
+    const [loading, setLoading] = useState([true]);
     const [error, setError] = useState([]);
 
     useEffect(() => {
@@ -14,11 +15,14 @@ const BestSeller = () => {
             .index({bestseller: true, per: 5, random:true})
             .then((response) => {
                 setBestSeller(response.data.products);
-                setLoading(false);
             })
             .catch((err) => {
                 setError(err);
-                setLoading(false);
+            })
+            .finally(() => {
+                setTimeout(() => {
+                    setLoading(false);
+                }, 3000);
             });
     }, []);
 
@@ -30,10 +34,14 @@ const BestSeller = () => {
                     Lorem Ipsum is simply dummy text of the printing and typesetting industry.
                 </p>
             </div>
-            <div className='grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6'>
-                {bestSeller.map((product, index) => (
-                    <ProductItem key={index} product={product}/>
-                ))}
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                {loading
+                    ? Array.from({length: 5}).map((_, i) => (
+                        <LoadingProductItem key={i}/>
+                    ))
+                    : bestSeller.map((product) => (
+                        <ProductItem product={product} key={product.id}/>
+                    ))}
             </div>
         </div>
     )

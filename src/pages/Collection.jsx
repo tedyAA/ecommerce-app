@@ -59,6 +59,7 @@ const Collection = () => {
         } catch (err) {
             setError(err);
         } finally {
+            // Timeout is used to keep the loading component visible for demonstration purposes
             setTimeout(() => {
                 setLoading(false);
             }, 3000);
