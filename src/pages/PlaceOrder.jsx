@@ -1,4 +1,3 @@
-// src/pages/PlaceOrder.jsx
 import React, {useEffect, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import auth from "../api/users/auth.js";

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import auth from "../api/users/auth.js";
+import orders from "../api/orders.js";
 import { assets } from "../assets/assets.js";
 import UserAvatarModal from "../components/user/UserAvatarModal.jsx";
 import { isEmpty } from "lodash";
@@ -7,9 +8,10 @@ import { isEmpty } from "lodash";
 const Account = () => {
     const [user, setUser] = useState(null);
     const [page, setPage] = useState("Profile");
+    const [userOrders, setUserOrders] = useState([]);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
 
-    const updateUser = async () => {
+    const fetchUser = async () => {
         try {
             const data = await auth.current();
             setUser(data);
@@ -18,13 +20,23 @@ const Account = () => {
         }
     };
 
+    const fetchOrders = async () => {
+        try {
+            const response = await orders.getUserOrders();
+            setUserOrders(response.data);
+            console.log(response.data);
+        } catch (err) {
+            console.log("Failed to load orders", err);
+        }
+    }
     const avatarUrl = () =>
         user && !isEmpty(user.avatar_url)
             ? user.avatar_url
             : "https://placehold.co/200x200";
 
     useEffect(() => {
-        updateUser();
+        fetchUser();
+        fetchOrders();
     }, []);
 
     if (!user)
@@ -45,7 +57,7 @@ const Account = () => {
                     isOpen={isAvatarModalOpen}
                     onClose={() => setAvatarModalOpen(false)}
                     currentAvatar={avatarUrl()}
-                    onUpdate={updateUser}
+                    onUpdate={fetchUser}
                 />
                 <img
                     src={avatarUrl()}
@@ -133,9 +145,33 @@ const Account = () => {
                 )}
 
                 {page === "Orders" && (
-                    <div className="w-full text-center text-gray-600 py-10">
-                        <h1 className="text-lg font-medium">No Orders Yet</h1>
+                    <div className="w-full py-10">
+                        <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">
+                            Your Orders
+                        </h2>
+                        {userOrders.length === 0 ? (
+                            <p className="text-gray-500 text-center">You have no orders yet.</p>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                {userOrders.map((order) => (
+                                    <div
+                                        key={order.id}
+                                        className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition cursor-pointer"
+                                    >
+                                        <p className="font-medium text-gray-700 mb-2">Order #{order.id}</p>
+                                        <p className="text-gray-600 mb-2">Status: <span
+                                            className="font-semibold">{order.status}</span></p>
+                                        <p className="text-gray-600 mb-2">Total: <span
+                                            className="font-semibold">${(order.total_cents / 100).toFixed(2)}</span></p>
+                                        <p className="text-gray-500 text-sm">
+                                            Placed on: {new Date(order.created_at).toLocaleDateString()}
+                                        </p>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
                     </div>
+
                 )}
 
                 {page === "Password" && (
