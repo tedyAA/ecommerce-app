@@ -1,16 +1,16 @@
-# React + Vite
+# React + Vite E-Commerce
 
-E-Commerce Clothing Store (React + Vite)
-A fast, modern, and fully static e-commerce web app built with React and Vite. Users can browse clothing items, simulate adding products to a cart, log in, and place orders — all within a sleek and responsive UI. While no backend is connected, the app provides a realistic online shopping experience using local state and mock data.
+E-Commerce Clothing Store (React + Vite)  
+A fast, modern e-commerce web app built with React and Vite that now works with a real backend. Users can browse clothing items, add products to a cart, log in, and place orders — all connected to a backend API for real data persistence.
 
-Features
+## Features
 
-🛒 Add-to-Cart simulation
+🛒 Add-to-Cart fully integrated with backend  
 
-👤 Login & user session simulation
+👤 Login & user session management  
 
-📦 Order placement simulation
+📦 Place orders with backend support  
 
-⚡ Powered by React + Vite for lightning-fast performance
+⚡ Powered by React + Vite for lightning-fast performance  
 
 📱 Responsive design for mobile and desktop
