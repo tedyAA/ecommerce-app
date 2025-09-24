@@ -2,11 +2,14 @@ import React, {useEffect, useState} from "react";
 import Title from "../components/global/Title.jsx";
 import auth from "../api/users/auth.js";
 import cart from "../api/users/cart.js";
+import {useNavigate} from "react-router-dom";
 
 
 const Cart = () => {
     const [cartItems, setCartItems] = React.useState([]);
     const [user, setUser] = useState(null);
+
+    const navigate = useNavigate();
 
     const getUser = async () => {
         try {
@@ -75,7 +78,9 @@ const Cart = () => {
                 </div>
 
                 <button
-                    className="px-6 py-2 bg-blue-600 text-white text-base font-medium rounded-xl shadow hover:bg-blue-700 transition">
+                    onClick={() => navigate("/place-order")}
+                    className="px-6 py-2 bg-blue-600 text-white text-base font-medium rounded-xl shadow hover:bg-blue-700 transition"
+                >
                     Checkout
                 </button>
             </div>
