@@ -1,6 +1,6 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {assets} from "../../assets/assets.js";
-import {Link, NavLink} from "react-router-dom";
+import {Link, NavLink, useNavigate} from "react-router-dom";
 import {ShopContext} from "../../context/ShopContext.jsx";
 
 const NavBar = () => {
@@ -9,6 +9,12 @@ const NavBar = () => {
     const {setShowSearch, getCartCount} = useContext(ShopContext)
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const handleLogout = () => {
+        localStorage.removeItem("auth_token");
+        const navigate = useNavigate();
+        navigate("/login");
+    };
 
     useEffect(() => {
         const token = localStorage.getItem('auth_token');
@@ -47,7 +53,13 @@ const NavBar = () => {
                         <div className='flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-500 rounded'>
                             <Link to={isLoggedIn ? '/account' : '/login'}> <p className='cursor-pointer hover:text-black'>My Profile</p></Link>
                             {isLoggedIn && (
-                                <p className='cursor-pointer hover:text-black'>Logout</p>
+                                <p
+                                    className='cursor-pointer hover:text-black'
+                                    onClick={() => handleLogout()}
+                                >
+                                    Logout
+                                </p>
+
                             )}
                         </div>
                     </div>

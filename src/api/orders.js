@@ -1,12 +1,20 @@
 import axios from "axios";
 
+const API_URL = "http://localhost:3000/api";
+const token = localStorage.getItem("auth_token");
 export default {
+    getUserOrders() {
+        return axios.get(`${API_URL}/orders`,
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
+    },
     placeOrder(address, paymentMethod, cartItems) {
-        const token = localStorage.getItem("auth_token");
-        console.log(token);
-
-        return axios.post(
-            "http://localhost:3000/api/orders",
+        return axios.post(`${API_URL}/orders`,
             {
                 order: {
                     address,
