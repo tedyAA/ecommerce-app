@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login } from "../store/slices/userSlice";
 import auth from "../api/users/auth.js";
-import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [mode, setMode] = useState('Login');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+
+    const [mode, setMode] = useState("Login");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const onSubmitHandler = async (event) => {
         event.preventDefault();
@@ -16,22 +20,34 @@ const Login = () => {
         try {
             let response;
 
-            if (mode === 'Login') {
+            if (mode === "Login") {
                 response = await auth.login(email, password);
 
-                if (response.data.token) {
-                    localStorage.setItem('auth_token', response.data.token);
+                const { token, user } = response.data;
+
+                if (token) {
+                    localStorage.setItem("auth_token", token);
+
+                    dispatch(
+                        login({
+                            token,
+                            email: user.email,
+                            firstName: user.first_name,
+                            lastName: user.last_name,
+                            id: user.id,
+                            createdAt: user.created_at,
+                            phone: user.phone || null,
+                        })
+                    );
                 }
 
-                console.log('Logged in:', response.data.user);
-
-                navigate('/account');
+                navigate("/account");
             } else {
-                response = await auth.signup(firstName, lastName, email, password );
-                setMode('Login');
+                await auth.signup(firstName, lastName, email, password);
+                setMode("Login");
             }
         } catch (err) {
-            console.error('Authentication failed:', err.response?.data || err);
+            console.error("Authentication failed:", err.response?.data || err);
         }
     };
 
