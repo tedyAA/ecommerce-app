@@ -3,7 +3,7 @@ import {Routes, Route} from 'react-router-dom';
 import Home from "./pages/Home.jsx";
 import Collection from "./pages/Collection.jsx";
 import About from "./pages/About.jsx";
-import Account from "./pages/Account.jsx";
+import Account from "./pages/Account.tsx";
 import Contact from "./pages/Contact.jsx";
 import Product from "./pages/Product.jsx";
 import Cart from "./pages/Cart.jsx";
@@ -14,10 +14,13 @@ import SearchBar from "./components/global/SearchBar.jsx";
 import PlaceOrder from "./pages/PlaceOrder.jsx";
 import OrderSuccess from "./pages/OrderSuccess.jsx";
 import {ToastContainer} from 'react-toastify';
+import { store } from "./store";
+import {Provider} from "react-redux";
 const App = () => {
 
     return (
         <div className='px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]'>
+            <Provider store={store}>
             <ToastContainer/>
             <NavBar/>
             <SearchBar/>
@@ -34,6 +37,7 @@ const App = () => {
                 <Route path="/order-success" element={<OrderSuccess/>}/>
             </Routes>
             <Footer/>
+            </Provider>
         </div>
     )
 }

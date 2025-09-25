@@ -5,11 +5,19 @@ import { assets } from "../assets/assets.js";
 import UserAvatarModal from "../components/user/UserAvatarModal.jsx";
 import { isEmpty } from "lodash";
 
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "../store";
+
 const Account = () => {
-    const [user, setUser] = useState(null);
     const [page, setPage] = useState("Profile");
     const [userOrders, setUserOrders] = useState([]);
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
+
+    const dispatch = useDispatch();
+
+    const user = useSelector((state: RootState) => state.user);
+
+    console.log("User from store:", user);
 
     const fetchUser = async () => {
         try {
