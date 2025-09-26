@@ -48,7 +48,6 @@ export const store = configureStore({
         }),
 });
 
-// Persistor for PersistGate
 export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
