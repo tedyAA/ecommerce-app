@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import auth from "../../api/users/auth.js";
 
 const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
     const [file, setFile] = useState(null);
@@ -17,35 +17,17 @@ const UserAvatarModal = ({ isOpen, onClose, currentAvatar, onUpdate }) => {
     const handleUpload = async () => {
         if (!file) return;
         setLoading(true);
-
-        const formData = new FormData();
-        formData.append("avatar", file);
-
-        const token = localStorage.getItem("auth_token");
-        if (!token) {
-            setLoading(false);
-            return;
-        }
-
         try {
-            const response = await axios.patch(
-                "http://localhost:3000/api/users/update_avatar",
-                formData,
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            onUpdate(response.data.avatar_url);
+            const result = await auth.updateAvatar(file); // 👈 use service
+            onUpdate(result.avatar_url);
             onClose();
         } catch (err) {
-            console.error(err.response?.data || err);
+            console.error(err);
         } finally {
             setLoading(false);
         }
     };
+
 
     if (!isOpen) return null;
 
