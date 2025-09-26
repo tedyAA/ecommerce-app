@@ -4,26 +4,18 @@ import UserAvatarModal from "../components/user/UserAvatarModal.jsx";
 import { isEmpty } from "lodash";
 
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState, AppDispatch } from "../store";
 import { fetchCurrentUser } from "../store/slices/userSlice";
 import UserInfo from "../components/user/account/UserInfo";
-import {fetchOrders} from "../store/slices/orderSlice";
+import { fetchOrders } from "../store/slices/orderSlice";
 import OrdersInfo from "../components/user/account/OrdersInfo";
 
-interface Order {
-    id: number;
-    status: string;
-    total_cents: number;
-    created_at: string;
-}
-
-const Account: React.FC = () => {
-    const [page, setPage] = useState<"Profile" | "Orders" | "Password">("Profile");
+const Account = () => {
+    const [page, setPage] = useState("Profile");
     const [isAvatarModalOpen, setAvatarModalOpen] = useState(false);
 
-    const dispatch: AppDispatch = useDispatch();
-    const user = useSelector((state: RootState) => state.user);
-    const orders = useSelector((state: RootState) => state.orders.list);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    const orders = useSelector((state) => state.orders.list);
 
     const avatarUrl = () =>
         user && !isEmpty(user.avatar_url)
@@ -72,7 +64,7 @@ const Account: React.FC = () => {
                                     ? "bg-blue-100 text-blue-700 font-medium"
                                     : "text-gray-700 hover:bg-gray-100"
                             }`}
-                            onClick={() => setPage(tab as typeof page)}
+                            onClick={() => setPage(tab)}
                         >
                             <img
                                 src={

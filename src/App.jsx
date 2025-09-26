@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Collection from "./pages/Collection.jsx";
 import About from "./pages/About.jsx";
-import Account from "./pages/Account.tsx";
+import Account from "./pages/Account.jsx";
 import Contact from "./pages/Contact.jsx";
 import Product from "./pages/Product.jsx";
 import Cart from "./pages/Cart.jsx";
