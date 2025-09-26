@@ -1,32 +1,57 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
+import ordersApi from "../../api/orders";
 
-interface Order {
+export interface Order {
     id: number;
     status: string;
     total: number;
-    createdAt: string;
+    created_at: string;
+    total_cents: number
 }
 
 interface OrdersState {
     list: Order[];
+    loading: boolean;
+    error: string | null;
 }
 
 const initialState: OrdersState = {
     list: [],
+    loading: false,
+    error: null,
 };
+
+export const fetchOrders = createAsyncThunk<Order[]>(
+    "orders/fetchOrders",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await ordersApi.getUserOrders();
+            return response.data as Order[];
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data || err.message);
+        }
+    }
+);
 
 const orderSlice = createSlice({
     name: "orders",
     initialState,
-    reducers: {
-        setOrders(state, action: PayloadAction<Order[]>) {
-            state.list = action.payload;
-        },
-        addOrder(state, action: PayloadAction<Order>) {
-            state.list.push(action.payload);
-        },
+    reducers: {},
+    extraReducers: (builder) => {
+        builder
+            .addCase(fetchOrders.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(fetchOrders.fulfilled, (state, action: PayloadAction<Order[]>) => {
+                state.loading = false;
+                state.list = action.payload;
+            })
+            .addCase(fetchOrders.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
+            });
     },
 });
 
-export const { setOrders, addOrder } = orderSlice.actions;
 export default orderSlice.reducer;
