@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import auth from "../../api/users/auth";
 
 interface UserState {
     token: string | null;
@@ -24,32 +25,56 @@ const initialState: UserState = {
     isAuthenticated: false,
 };
 
+export const fetchCurrentUser = createAsyncThunk(
+    "user/fetchCurrentUser",
+    async (_, { rejectWithValue }) => {
+        try {
+            const response = await auth.current();
+            return response;
+        } catch (err: any) {
+            return rejectWithValue(err.response?.data || err.message);
+        }
+    }
+);
+
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
-        login(state, action: PayloadAction<{ token: string; email: string; firstName: string, lastName: string, phone:string, createdAt: string, id: string, avatar_url: string }>) {
-            state.token = action.payload.token;
-            state.email = action.payload.email;
-            state.firstName = action.payload.firstName;
-            state.lastName = action.payload.lastName;
-            state.phone = action.payload.phone;
-            state.createdAt = action.payload.createdAt;
-            state.id = action.payload.id;
-            state.avatar_url = action.payload.avatar_url;
-            state.isAuthenticated = true;
+        login(
+            state,
+            action: PayloadAction<{
+                token: string;
+                email: string;
+                firstName: string;
+                lastName: string;
+                phone: string;
+                createdAt: string;
+                id: string;
+                avatar_url: string;
+            }>
+        ) {
+            Object.assign(state, action.payload, { isAuthenticated: true });
         },
         logout(state) {
-            state.token = null;
-            state.email = null;
-            state.firstName = null;
-            state.lastName = null;
-            state.phone = null;
-            state.createdAt = null;
-            state.id = null;
-            state.avatar_url = null;
-            state.isAuthenticated = false;
+            Object.assign(state, initialState);
         },
+    },
+    extraReducers: (builder) => {
+        builder.addCase(fetchCurrentUser.fulfilled, (state, action) => {
+            const user = action.payload;
+            state.email = user.email;
+            state.firstName = user.first_name;
+            state.lastName = user.last_name;
+            state.phone = user.phone || null;
+            state.createdAt = user.created_at;
+            state.id = user.id;
+            state.avatar_url = user.avatar_url || null;
+            state.isAuthenticated = true;
+        });
+        builder.addCase(fetchCurrentUser.rejected, (state) => {
+            Object.assign(state, initialState);
+        });
     },
 });
 

@@ -14,9 +14,8 @@ import {
     PURGE,
     REGISTER,
 } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // localStorage
+import storage from "redux-persist/lib/storage";
 
-// Persist config for user slice
 const userPersistConfig = {
     key: "user",
     storage,
