@@ -2,22 +2,16 @@ import React from 'react';
 import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {assets} from "../assets/assets.js";
+import cartApi from "../api/users/cart.js";
 
 const ProductItem = ({product}) => {
     const productImage = () => {
         return product?.image_urls?.[0] || "https://placehold.co/600x400?font=roboto";
     };
-    const addToCart = async (productId, quantity = 1) => {
-        const token = localStorage.getItem('auth_token');
-        const response = await fetch("http://localhost:3000/api/cart_items", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify({ product_id: productId, quantity })
-        });
-        return response.json();
+    const handleAddToCart = (productId) => {
+        cartApi.addToCart(productId)
+            .then(res => console.log("Added to cart:", res.data))
+            .catch(err => console.error(err));
     };
 
 
@@ -40,7 +34,7 @@ const ProductItem = ({product}) => {
                     <p className="pt-3 pb-1 text-sm">{product.name}</p>
                     <p className="pt-3 pb-1 text-sm">{product.price / 100} $</p>
                 </div>
-                <img src={assets.cart_icon} onClick={() => addToCart(product.id)} className="w-[20px] h-[20px] cursor-pointer" />
+                <img src={assets.cart_icon} onClick={() => handleAddToCart(product.id)} className="w-[20px] h-[20px] cursor-pointer" />
             </div>
         </div>
 )
