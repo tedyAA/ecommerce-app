@@ -3,6 +3,7 @@ import Title from "../components/global/Title.jsx";
 import auth from "../api/users/auth.js";
 import cart from "../api/users/cart.js";
 import {useNavigate} from "react-router-dom";
+import CartItem from "../components/CartItem.jsx";
 
 
 const Cart = () => {
@@ -37,28 +38,7 @@ const Cart = () => {
             </div>
             {cartItems?.length > 0 ? (
                 cartItems.map((item) => (
-                    <div
-                        key={item.id}
-                        className="flex items-center gap-4 p-4 bg-white rounded-2xl shadow-sm border mb-3"
-                    >
-                        <img
-                            src="https://placehold.co/100x100"
-                            alt={item.product.name}
-                            className="w-20 h-20 rounded-lg object-cover"
-                        />
-
-                        <div className="flex flex-col flex-1">
-                            <p className="text-lg font-semibold text-gray-800">{item.product.name}</p>
-                            <p className="text-sm text-gray-500">{item.product.description}</p>
-
-                            <div className="flex items-center justify-between mt-2">
-                                <p className="text-base font-bold text-gray-900">
-                                    ${(item.product.price / 100 * item.quantity).toFixed(2)}
-                                </p>
-                                <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                            </div>
-                        </div>
-                    </div>
+                <CartItem item={item} key={item.id} />
                 ))
             ) : (
                 <p>No items in cart</p>
