@@ -3,6 +3,11 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 
 const CartItem = ({item}) => {
+
+    const productImage = () => {
+        return item?.product?.image_urls?.[0] || "https://placehold.co/600x400?font=roboto";
+    };
+
     return (
         <Link  to={`/product/${item.product.id}`}>
             <div
@@ -10,7 +15,7 @@ const CartItem = ({item}) => {
                 className="flex items-center gap-4 p-4 bg-white rounded-2xl border-gray-100 shadow-sm border mb-3"
             >
                 <img
-                    src="https://placehold.co/100x100"
+                    src={productImage()}
                     alt={item.product.name}
                     className="w-20 h-20 rounded-lg object-cover"
                 />
