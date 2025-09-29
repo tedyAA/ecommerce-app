@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const CartItem = ({item}) => {
     return (
-        <Link>
+        <Link  to={`/product/${item.product.id}`}>
             <div
                 key={item.id}
                 className="flex items-center gap-4 p-4 bg-white rounded-2xl border-gray-100 shadow-sm border mb-3"
