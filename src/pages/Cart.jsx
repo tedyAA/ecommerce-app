@@ -38,7 +38,10 @@ const Cart = () => {
             </div>
             {cartItems?.length > 0 ? (
                 cartItems.map((item) => (
-                <CartItem item={item} key={item.id} />
+                    <CartItem
+                        item={item}
+                        key={item.id}
+                    />
                 ))
             ) : (
                 <p>No items in cart</p>
