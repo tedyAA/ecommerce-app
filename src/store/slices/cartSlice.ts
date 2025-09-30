@@ -34,7 +34,6 @@ const cartSlice = createSlice({
             const cart = action.payload;
             state.id = cart.id;
             state.user_id = cart.user_id;
-
             state.items = cart.cart_items.map((ci: { id: any; quantity: any; product: any; }) => ({
                 id: ci.id,
                 quantity: ci.quantity,
@@ -44,9 +43,7 @@ const cartSlice = createSlice({
 
         updateQuantity(state, action: PayloadAction<{ id: number; quantity: number }>) {
             const item = state.items.find((i) => i.id === action.payload.id);
-            if (item) {
-                item.quantity = action.payload.quantity;
-            }
+            if (item) item.quantity = action.payload.quantity;
         },
 
         addItem(state, action: PayloadAction<CartItem>) {
@@ -69,6 +66,9 @@ const cartSlice = createSlice({
         },
     },
 });
+
+export const selectCartCount = (state: { cart: CartState }) =>
+    state.cart.items.reduce((total, item) => total + item.quantity, 0);
 
 export const { setCart, updateQuantity, addItem, removeItem, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;
