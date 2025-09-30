@@ -16,6 +16,21 @@ const cartApi = {
             { product_id: productId, quantity },
             { headers: { Authorization: `Bearer ${token}` } }
         );
+    },
+
+    updateCartItem(itemId, quantity) {
+        const token = localStorage.getItem('auth_token');
+        return axios.patch(`${API_URL}/cart_items/${itemId}`,
+            { cart_item: { quantity } },
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
+    },
+
+    deleteCartItem(itemId) {
+        const token = localStorage.getItem('auth_token');
+        return axios.delete(`${API_URL}/cart_items/${itemId}`,
+            { headers: { Authorization: `Bearer ${token}` } }
+        );
     }
 };
 

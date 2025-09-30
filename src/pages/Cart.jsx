@@ -41,6 +41,8 @@ const Cart = () => {
                     <CartItem
                         item={item}
                         key={item.id}
+                        onUpdate={fetchCart}
+                        onDelete={fetchCart}
                     />
                 ))
             ) : (
