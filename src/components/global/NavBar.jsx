@@ -6,13 +6,14 @@ import {ShopContext} from "../../context/ShopContext.jsx";
 const NavBar = () => {
 
     const [visible, setVisible] = useState(false);
-    const {setShowSearch, getCartCount} = useContext(ShopContext)
+    const {setShowSearch} = useContext(ShopContext)
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+    const navigate = useNavigate();
+
     const handleLogout = () => {
         localStorage.removeItem("auth_token");
-        const navigate = useNavigate();
         navigate("/login");
     };
 
