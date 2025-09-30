@@ -2,7 +2,6 @@ import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
 import cartReducer from "./slices/cartSlice";
 import orderReducer from "./slices/orderSlice";
-import productReducer from "./slices/productSlice";
 
 import {
     persistStore,
@@ -36,8 +35,7 @@ export const store = configureStore({
     reducer: {
         user: persistedUserReducer,
         cart: cartReducer,
-        orders: orderReducer,
-        products: productReducer,
+        orders: orderReducer
     },
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({

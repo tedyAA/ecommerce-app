@@ -1,75 +1,87 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect } from "react";
 import Title from "../components/global/Title.jsx";
 import auth from "../api/users/auth.js";
-import cart from "../api/users/cart.js";
-import {useNavigate} from "react-router-dom";
+import cartApi from "../api/users/cart.js";
+import { useNavigate } from "react-router-dom";
 import CartItem from "../components/CartItem.jsx";
-
+import { useDispatch, useSelector } from "react-redux";
+import { setCart, removeItem, updateQuantity } from "../store/slices/cartSlice";
 
 const Cart = () => {
-    const [cartItems, setCartItems] = React.useState([]);
-    const [user, setUser] = useState(null);
-
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
-    const getUser = async () => {
-        try {
-            const data = await auth.current();
-            setUser(data);
-            await fetchCart(data.cart_id)
-        } catch (error) {
-            console.error("Failed to fetch user", error);
-        }
-    };
-
-    const fetchCart = async (userCartId) => {
-        const response = await cart.index(userCartId);
-        setCartItems(response.data.cart_items);
-    };
+    const cart = useSelector((state) => state.cart);
+    const cartItems = cart.items || [];
 
     useEffect(() => {
-        getUser()
-    }, []);
+        const fetchUserAndCart = async () => {
+            try {
+                const user = await auth.current();
+                const response = await cartApi.index(user.cart_id);
+                dispatch(setCart(response.data));
+            } catch (error) {
+                console.error("Failed to fetch cart:", error);
+            }
+        };
+
+        fetchUserAndCart();
+    }, [dispatch]);
+
+    const handleUpdate = (updatedItem) => {
+        dispatch(updateQuantity({ id: updatedItem.id, quantity: updatedItem.quantity }));
+    };
+
+    const handleDelete = (id) => {
+        dispatch(removeItem(id));
+    };
+
+    const total = cartItems.reduce(
+        (acc, item) => acc + item.product.price * item.quantity,
+        0
+    );
 
     return (
-        <div className='border-t pt-14'>
-            <div className='text-2xl mb-3'>
-                <Title text1='YOUR' text2="CART"/>
+        <div className="border-t pt-14">
+            <div className="text-2xl mb-3">
+                <Title text1="YOUR" text2="CART" />
             </div>
-            {cartItems?.length > 0 ? (
+
+            {cartItems.length > 0 ? (
                 cartItems.map((item) => (
                     <CartItem
-                        item={item}
                         key={item.id}
-                        onUpdate={fetchCart}
-                        onDelete={fetchCart}
+                        item={item}
+                        onUpdate={handleUpdate}
+                        onDelete={handleDelete}
                     />
                 ))
             ) : (
-                <p>No items in cart</p>
+                <p className="text-gray-500 mt-6">No items in cart</p>
             )}
 
-            <div className="flex items-center justify-between p-4 mt-6">
+            <div className="flex items-center justify-between p-4 mt-6 border-t">
                 <div className="text-xl font-semibold text-gray-800">
                     <Title
                         text1="Grand Total: $"
-                        text2={(
-                            cartItems.reduce(
-                                (acc, item) => acc + item.product.price * item.quantity,
-                                0
-                            ) / 100
-                        ).toFixed(2)}
+                        text2={(total / 100).toFixed(2)}
                     />
                 </div>
 
                 <button
                     onClick={() => navigate("/place-order")}
-                    className="px-6 py-2 bg-blue-600 text-white text-base font-medium rounded-xl shadow hover:bg-blue-700 transition"
+                    disabled={cartItems.length === 0}
+                    className={`px-6 py-2 rounded-xl shadow transition text-base font-medium ${
+                        cartItems.length === 0
+                            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                            : "bg-blue-600 text-white hover:bg-blue-700"
+                    }`}
                 >
                     Checkout
                 </button>
             </div>
         </div>
-    )
-}
+    );
+};
+
 export default Cart;
