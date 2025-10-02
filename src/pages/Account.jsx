@@ -5,9 +5,9 @@ import { isEmpty } from "lodash";
 
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCurrentUser } from "../store/slices/userSlice";
-import UserInfo from "../components/user/account/UserInfo";
+import UserInfo from "../components/user/account/UserInfo.jsx";
 import { fetchOrders } from "../store/slices/orderSlice";
-import OrdersInfo from "../components/user/account/OrdersInfo";
+import OrdersInfo from "../components/user/account/OrdersInfo.jsx";
 
 const Account = () => {
     const [page, setPage] = useState("Profile");

@@ -1,17 +1,7 @@
 import React from "react";
+import PropTypes from "prop-types";
 
-interface Order {
-    id: number;
-    status: string;
-    total_cents: number;
-    created_at: string;
-}
-
-interface OrdersInfoProps {
-    order: Order;
-}
-
-const OrdersInfo: React.FC<OrdersInfoProps> = ({ order }) => {
+const OrdersInfo = ({ order }) => {
     return (
         <div className="bg-white shadow-md rounded-xl p-4 hover:shadow-lg transition cursor-pointer">
             <p className="font-medium text-gray-700 mb-2">Order #{order.id}</p>
@@ -26,6 +16,15 @@ const OrdersInfo: React.FC<OrdersInfoProps> = ({ order }) => {
             </p>
         </div>
     );
+};
+
+OrdersInfo.propTypes = {
+    order: PropTypes.shape({
+        id: PropTypes.number.isRequired,
+        status: PropTypes.string.isRequired,
+        total_cents: PropTypes.number.isRequired,
+        created_at: PropTypes.string.isRequired,
+    }).isRequired,
 };
 
 export default OrdersInfo;

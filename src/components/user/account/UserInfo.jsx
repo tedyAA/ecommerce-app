@@ -1,11 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import type { RootState } from "../../../store";
 
-const UserInfo: React.FC = () => {
-    const user = useSelector((state: RootState) => state.user);
+const UserInfo = () => {
+    const user = useSelector((state) => state.user);
 
-    if (!user.isAuthenticated) return null;
+    if (!user?.isAuthenticated) return null;
 
     return (
         <div className="w-full">
@@ -47,14 +46,13 @@ const UserInfo: React.FC = () => {
                 Phone
             </label>
             <input
-                type="email"
+                type="text"
                 value={user.phone || ""}
                 className="w-full px-3 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
                 readOnly
             />
 
-            <button
-                className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition w-full lg:w-auto">
+            <button className="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition w-full lg:w-auto">
                 Update Account
             </button>
         </div>
