@@ -25,10 +25,13 @@ const NavBar = () => {
 
     return (
         <div className="flex items-center justify-between py-5 font-medium">
-            <Link to={`/`}>
-                <p className="text-2xl font-bold text-gray-800 tracking-tight hover:text-blue-600 transition-colors">
-                    Trendy
-                </p>
+            <Link to={`/`} >
+                <div className="flex items-center justify-center">
+                    <p className="text-2xl font-bold text-gray-800 tracking-tight hover:text-blue-600 transition-colors">
+                        Trendy
+                    </p>
+                    <img src={assets.success} alt="logo" className="w-[50px] h-[50px]"/>
+                </div>
             </Link>
             <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
                 <NavLink to='/' className="flex flex-col items-center gap-1">
