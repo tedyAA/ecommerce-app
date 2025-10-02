@@ -60,7 +60,7 @@ export default {
                     },
                 }
             );
-            return response.data; // This should include avatar_url
+            return response.data;
         } catch (err) {
             console.error("Avatar upload failed:", err.response?.data || err);
             throw err;
