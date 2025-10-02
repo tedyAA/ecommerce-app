@@ -27,7 +27,7 @@ const NavBar = () => {
         <div className="flex items-center justify-between py-5 font-medium">
             <Link to={`/`} >
                 <div className="flex items-center justify-center">
-                    <p className="text-2xl font-bold text-gray-800 tracking-tight hover:text-blue-600 transition-colors">
+                    <p className="text-2xl font-bold text-gray-800 tracking-tight hover:text-[#b14512] transition-colors">
                         Trendy
                     </p>
                     <img src={assets.success} alt="logo" className="w-[50px] h-[50px]"/>
