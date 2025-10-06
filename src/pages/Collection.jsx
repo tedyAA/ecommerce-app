@@ -22,6 +22,8 @@ const Collection = () => {
     const [showFilter, setShowFilter] = useState(false);
     const [pagination, setPagination] = useState({ current_page: 1, total_pages: 1 });
 
+    const [sort, setSort] = useState("relevant");
+
     const fetchData = async (apiCall, setter) => {
         try {
             const response = await apiCall.index();
@@ -39,6 +41,7 @@ const Collection = () => {
                 per: 12,
                 categories: selectedCategories.join(','),
                 typeId: selectedTypes.join(','),
+                sort,
             };
 
             if (selectedCategories.length > 0) {
@@ -59,17 +62,15 @@ const Collection = () => {
         } catch (err) {
             setError(err);
         } finally {
-            // Timeout is used to keep the loading component visible for demonstration purposes
             setTimeout(() => {
                 setLoading(false);
             }, 3000);
         }
-
     };
 
     useEffect(() => {
         fetchProducts(1);
-    }, [selectedCategories, selectedTypes]);
+    }, [selectedCategories, selectedTypes, sort]);
 
     useEffect(() => {
         fetchData(categoriesApi, setCategoriesList);
@@ -79,10 +80,15 @@ const Collection = () => {
     return (
         <div className='flex flex-col sm:flex-row gap-1 sm:gap-10 pt-10 border-t'>
             <div className='min-w-60'>
-                <p onClick={() => setShowFilter(!showFilter)}
-                   className='my-2 text-xl flex items-center cursor-pointer gap-2'>
+                <p
+                    onClick={() => setShowFilter(!showFilter)}
+                    className='my-2 text-xl flex items-center cursor-pointer gap-2'
+                >
                     FILTERS
-                    <img src={assets.dropdown_icon} className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`} />
+                    <img
+                        src={assets.dropdown_icon}
+                        className={`h-3 sm:hidden ${showFilter ? 'rotate-90' : ''}`}
+                    />
                 </p>
 
                 <CategoryFilter
@@ -92,20 +98,23 @@ const Collection = () => {
                     show={showFilter}
                 />
 
-
                 <TypesFilters
                     types={typesList}
                     selectedTypes={selectedTypes}
                     onChange={setSelectedTypes}
                     show={showFilter}
                 />
-
             </div>
 
             <div className='flex-1'>
                 <div className='flex justify-between text-base sm:text-2xl mb-4'>
                     <Title text1={'ALL'} text2={'COLLECTIONS'} />
-                    <select className='border-2 border-gray-300 text-sm px-2'>
+                    
+                    <select
+                        className='border-2 border-gray-300 text-sm px-2'
+                        value={sort}
+                        onChange={(e) => setSort(e.target.value)}
+                    >
                         <option value="relevant">Sort by: Relevant</option>
                         <option value="low-high">Sort by: Low to High</option>
                         <option value="high-low">Sort by: High to Low</option>
@@ -114,15 +123,15 @@ const Collection = () => {
 
                 {loading ? (
                     <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                        {Array.from({length: 8}).map((_, i) => (
-                            <LoadingProductItem key={i}/>
+                        {Array.from({ length: 8 }).map((_, i) => (
+                            <LoadingProductItem key={i} />
                         ))}
                     </div>
                 ) : productList.length > 0 ? (
                     <div>
                         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 gap-y-6">
                             {productList.map((product) => (
-                                <ProductItem key={product.id} product={product}/>
+                                <ProductItem key={product.id} product={product} />
                             ))}
                         </div>
                         <Pagination
