@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchCurrentUser } from "../../../store/slices/userSlice";
 import auth from "../../../api/users/auth.js";
-
+import { toast } from "react-toastify";
 
 const UserInfo = () => {
     const user = useSelector((state) => state.user);
@@ -12,7 +12,7 @@ const UserInfo = () => {
         first_name: user.firstName || "",
         last_name: user.lastName || "",
         email: user.email || "",
-        phone: user.phone || "",
+        phoneNumber: user.phoneNumber || "",
     });
 
     if (!user?.isAuthenticated) return null;
@@ -25,19 +25,23 @@ const UserInfo = () => {
     const handleSubmit = async () => {
 
         try {
-            const res = auth.updateUser(user.id,form)
+            const updated = auth.updateUser(user.id, form)
 
-            const updated = res.data.user;
+            setTimeout(() =>{
+                setForm({
+                    first_name: updated.first_name || user.firstName,
+                    last_name: updated.last_name || user.lastName,
+                    email: updated.email || user.email,
+                    phoneNumber: updated.phone || user.phoneNumber,
+                }, 3000);
+            })
+            toast.success("✅ Account updated!");
 
-            setForm({
-                first_name: updated.first_name || "",
-                last_name: updated.last_name || "",
-                email: updated.email || "",
-                phone: updated.phone || "",
-            });
-            dispatch(fetchCurrentUser());
         } catch (err) {
             console.error("Update failed:", err.response?.data || err.message);
+            toast.error("❌ Something went wrong");
+        } finally {
+            dispatch(fetchCurrentUser());
         }
     };
 
@@ -78,7 +82,7 @@ const UserInfo = () => {
             <input
                 type="text"
                 name="phone"
-                value={form.phone || ""}
+                value={form.phoneNumber || ""}
                 onChange={handleChange}
                 className="w-full px-3 py-2 mb-4 border rounded-lg focus:ring-2 focus:ring-blue-500"
             />

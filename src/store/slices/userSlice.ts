@@ -6,7 +6,7 @@ interface UserState {
     email: string | null;
     firstName: string | null;
     lastName: string | null;
-    phone: string | null;
+    phoneNumber: string | null;
     createdAt: string | null;
     id: string | null;
     avatar_url: string | null;
@@ -18,7 +18,7 @@ const initialState: UserState = {
     email: null,
     firstName: null,
     lastName: null,
-    phone: null,
+    phoneNumber: null,
     createdAt: null,
     id: null,
     avatar_url: null,
@@ -48,7 +48,7 @@ const userSlice = createSlice({
                 email: string;
                 firstName: string;
                 lastName: string;
-                phone: string;
+                phoneNumber: string;
                 createdAt: string;
                 id: string;
                 avatar_url: string;
@@ -66,7 +66,7 @@ const userSlice = createSlice({
             state.email = user.email;
             state.firstName = user.first_name;
             state.lastName = user.last_name;
-            state.phone = user.phone || null;
+            state.phoneNumber = user.phone || null;
             state.createdAt = user.created_at;
             state.id = user.id;
             state.avatar_url = user.avatar_url || null;
