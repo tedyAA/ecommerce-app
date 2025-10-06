@@ -19,6 +19,7 @@ import cross_icon from './cross_icon.png'
 import hero2_img from './hero2.jpg'
 import hero_contacts from './hero-contacts.jpg'
 import success from './success.png'
+import check_icon from './check_icon.png'
 
 export const assets = {
     logo,
@@ -41,7 +42,8 @@ export const assets = {
     cross_icon,
     hero2_img,
     hero_contacts,
-    success
+    success,
+    check_icon,
 }
 
 export const products = []
