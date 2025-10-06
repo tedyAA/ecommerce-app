@@ -66,4 +66,15 @@ export default {
             throw err;
         }
     },
+    async updateUser(id, form) {
+        const res = await axios.patch(
+            `${API_URL}/users/${id}`,
+            { user: form },
+            {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("auth_token")}`,
+                },
+            })
+        return res.data.user;
+    },
 };
