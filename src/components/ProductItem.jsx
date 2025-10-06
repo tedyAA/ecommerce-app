@@ -3,6 +3,7 @@ import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import {assets} from "../assets/assets.js";
 import cartApi from "../api/users/cart.js";
+import {toast} from "react-toastify";
 
 const ProductItem = ({product}) => {
     const productImage = () => {
@@ -10,8 +11,8 @@ const ProductItem = ({product}) => {
     };
     const handleAddToCart = (productId) => {
         cartApi.addToCart(productId)
-            .then(res => console.log("Added to cart:", res.data))
-            .catch(err => console.error(err));
+            .then(res =>  toast.success(" Item added to cart!"))
+            .catch(err => toast.error(" Something went wrong", err));
     };
 
 
