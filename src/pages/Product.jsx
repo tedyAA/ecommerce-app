@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { isEmpty } from "lodash";
 import productsApi from "../api/products.js";
 import cartApi from "../api/users/cart.js";
+import {toast} from "react-toastify";
 
 const Product = () => {
     const { productId } = useParams();
@@ -34,8 +35,10 @@ const Product = () => {
         if (!product) return;
         try {
             await cartApi.addToCart(product.id, quantity);
+            toast.success("🛒 Item added to cart!")
         } catch (err) {
             console.error(err);
+            toast.error("Something went wrong")
         }
     };
 
